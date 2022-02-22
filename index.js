@@ -53,33 +53,52 @@ function checkStatusAndParse(response) {
 //     })
 
 //.........................................................................................
-function printPlanets(data) {
-    console.log("Loaded 10 more planets");
-    for (let planet of data.results) {
-        console.log(planet.name);
-    }
-    return Promise.resolve(data.next);
-    // takie cuś jak powyżej da nam resolved promise'a
-}
+// function printPlanets(data) {
+//     console.log("Loaded 10 more planets");
+//     for (let planet of data.results) {
+//         console.log(planet.name);
+//     }
+//     return Promise.resolve(data.next);
+//     // takie cuś jak powyżej da nam resolved promise'a
+// }
 
 function getNext10planets(url) {
     return fetch(url);
 }
 
-    fetch("https://swapi.dev/api/planets/")
-    .then(checkStatusAndParse)
-    .then(printPlanets)
-    .then(getNext10planets)
-    .then(checkStatusAndParse)
-    .then(printPlanets)
-    .then(getNext10planets)
-    .then(checkStatusAndParse)
-    .then(printPlanets)
-    .then(getNext10planets)
-    .then(checkStatusAndParse)
-    .then(printPlanets)
-    .catch((err) => {
-        console.log("sth went wrong", err);
-    })
+//     fetch("https://swapi.dev/api/planets/")
+//     .then(checkStatusAndParse)
+//     .then(printPlanets)
+//     .then(getNext10planets)
+//     .then(checkStatusAndParse)
+//     .then(printPlanets)
+//     .then(getNext10planets)
+//     .then(checkStatusAndParse)
+//     .then(printPlanets)
+//     .then(getNext10planets)
+//     .then(checkStatusAndParse)
+//     .then(printPlanets)
+//     .catch((err) => {
+//         console.log("sth went wrong", err);
+//     })
 
 //....................................................
+
+function printPlanetsWithAxios(response) {
+    console.log("Loaded 10 more planets");
+    for (let planet of response.data.results) {
+        console.log(planet.name);
+    }
+    return Promise.resolve(response.data.next);
+    // takie cuś jak powyżej da nam resolved promise'a
+}
+
+function getNext10planets(url="https://swapi.dev/api/planets/") {
+    return axios.get(url);
+}
+
+getNext10planets()
+.then(printPlanetsWithAxios)
+.then(getNext10planets)
+.then(printPlanetsWithAxios)
+.catch(err => console.log("Error is: ", err));
